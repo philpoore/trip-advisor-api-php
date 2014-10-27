@@ -2,7 +2,8 @@
 
 class TripAdvisor {
 	private $api_key;
-	
+	private $CACHE_UPDATE_INTERVAL = 60;	// 60 seconds
+
 	public function __construct($api_key){
 		$this->api_key = $api_key;
 	}
@@ -13,8 +14,19 @@ class TripAdvisor {
 		
 		$data = file_get_contents($url);
 		file_put_contents($filename, $data);
-		
-		print("Updated ".$filename);
+
+		// print("Updated ".$filename);
+	}
+
+	public function updateIfNeeded($location_id){
+		$filename = dirname(__FILE__) . '/ta_data/' . $location_id . '.json';
+
+		$file_mtime = @filemtime($filename);
+		$now = time();
+		$file_mtime_offset = $now - $file_mtime;
+		if ($file_mtime_offset > $this->CACHE_UPDATE_INTERVAL){
+			$this->update($location_id);
+		}
 	}
 	
 	public function get($location_id){
