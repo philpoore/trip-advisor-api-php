@@ -25,10 +25,10 @@ class TripAdvisor {
 		$now = time();
 		$file_mtime_offset = $now - $file_mtime;
 		if ($file_mtime_offset > $this->CACHE_UPDATE_INTERVAL){
-			file_put_contents(dirname(__FILE__) ."TripAdvisorAPI.log", "[$now] Updating $filename because its $file_mtime_offset seconds old.", FILE_APPEND);
+			file_put_contents(dirname(__FILE__) ."/TripAdvisorAPI.log", "[$now] Updating $filename because its $file_mtime_offset seconds old.", FILE_APPEND);
 			$this->update($location_id);
 		}else{
-			file_put_contents(dirname(__FILE__) ."TripAdvisorAPI.log", "[$now] Skipping Update because its $file_mtime_offset seconds old.", FILE_APPEND);
+			file_put_contents(dirname(__FILE__) ."/TripAdvisorAPI.log", "[$now] Skipping Update because its $file_mtime_offset seconds old.", FILE_APPEND);
 		}
 	}
 	
